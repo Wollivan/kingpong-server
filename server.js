@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const cors = require("cors");
 const gamesRouter = require("./routes/games/index");
 const playersRouter = require("./routes/players/index");
@@ -12,6 +12,6 @@ app.use("/", playersRouter);
 
 app.use(express.static("public"));
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log(`Express server listening on ${PORT} :-) !`);
 });
