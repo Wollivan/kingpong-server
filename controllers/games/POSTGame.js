@@ -235,26 +235,41 @@ function addGame(req, res) {
         game.playerTwoScore > game.playerOneScore
       );
     });
-
+    console.log(playerTwoGamesW, "player 2 wins");
     const playerTwoGamesL = allGamesMapped.filter((game) => {
       return (
         game.playerTwoName == playerTwoName &&
         game.playerTwoScore < game.playerOneScore
       );
     });
+    console.log(playerTwoGamesL, "player 2 losses");
 
-    const playerOneMostWinsAgainst = mostAgainst(playerOneGamesW, 1, "no wins");
-    const playerTwoMostWinsAgainst = mostAgainst(playerTwoGamesW, 2, "no wins");
-    const playerOneMostLossesAgainst = mostAgainst(
-      playerOneGamesL,
-      1,
-      "no losses"
-    );
-    const playerTwoMostLossesAgainst = mostAgainst(
-      playerTwoGamesL,
-      2,
-      "no losses"
-    );
+    let playerOneMostWinsAgainst = "";
+    if (playerOneGamesW == []) {
+      playerOneMostWinsAgainst = "No Wins";
+    } else {
+      playerOneMostWinsAgainst = mostAgainst(playerOneGamesW, 1, "No Wins");
+    }
+    let playerTwoMostWinsAgainst = "";
+    if (playerTwoGamesW == []) {
+      playerTwoMostWinsAgainst = "No Wins";
+    } else {
+      playerTwoMostWinsAgainst = mostAgainst(playerTwoGamesW, 2, "No Wins");
+    }
+
+    let playerOneMostLossesAgainst = "";
+    if (playerOneGamesL == []) {
+      playerOneMostLossesAgainst = "No Losses";
+    } else {
+      playerOneMostLossesAgainst = mostAgainst(playerOneGamesL, 1, "No Losses");
+    }
+
+    let playerTwoMostLossesAgainst = "";
+    if (playerTwoGamesL == []) {
+      playerTwoMostLossesAgainst = "No Losses";
+    } else {
+      playerTwoMostLossesAgainst = mostAgainst(playerTwoGamesL, 2, "No Losses");
+    }
 
     const playerOneNew = {
       name: playerOneName,
