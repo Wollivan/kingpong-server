@@ -235,41 +235,52 @@ function addGame(req, res) {
         game.playerTwoScore > game.playerOneScore
       );
     });
-    console.log(playerTwoGamesW, "player 2 wins");
     const playerTwoGamesL = allGamesMapped.filter((game) => {
       return (
         game.playerTwoName == playerTwoName &&
         game.playerTwoScore < game.playerOneScore
       );
     });
-    console.log(playerTwoGamesL, "player 2 losses");
 
     let playerOneMostWinsAgainst = "";
-    if (playerOneGamesW == []) {
+    if (playerOneGamesW.length === 0) {
       playerOneMostWinsAgainst = "No Wins";
     } else {
-      playerOneMostWinsAgainst = mostAgainst(playerOneGamesW, 1, "No Wins");
+      playerOneMostWinsAgainst = mostAgainst(playerOneGamesW, 1, "No Wins2");
     }
     let playerTwoMostWinsAgainst = "";
-    if (playerTwoGamesW == []) {
+    if (playerTwoGamesW.length === 0) {
       playerTwoMostWinsAgainst = "No Wins";
     } else {
-      playerTwoMostWinsAgainst = mostAgainst(playerTwoGamesW, 2, "No Wins");
+      playerTwoMostWinsAgainst = mostAgainst(playerTwoGamesW, 2, "No Wins2");
     }
 
     let playerOneMostLossesAgainst = "";
-    if (playerOneGamesL == []) {
+    if (playerOneGamesL.length === 0) {
       playerOneMostLossesAgainst = "No Losses";
     } else {
-      playerOneMostLossesAgainst = mostAgainst(playerOneGamesL, 1, "No Losses");
+      playerOneMostLossesAgainst = mostAgainst(
+        playerOneGamesL,
+        1,
+        "No Losses2"
+      );
     }
 
     let playerTwoMostLossesAgainst = "";
-    if (playerTwoGamesL == []) {
+    if (playerTwoGamesL.length === 0) {
       playerTwoMostLossesAgainst = "No Losses";
     } else {
-      playerTwoMostLossesAgainst = mostAgainst(playerTwoGamesL, 2, "No Losses");
+      playerTwoMostLossesAgainst = mostAgainst(
+        playerTwoGamesL,
+        2,
+        "No Losses2"
+      );
     }
+
+    // console.log(playerOneGamesW, "player 1 wins", playerOneMostWinsAgainst);
+    // console.log(playerOneGamesL, "player 1 losses", playerOneMostLossesAgainst);
+    // console.log(playerTwoGamesW, "player 2 wins", playerTwoMostWinsAgainst);
+    // console.log(playerTwoGamesL, "player 2 losses", playerTwoMostLossesAgainst);
 
     const playerOneNew = {
       name: playerOneName,
