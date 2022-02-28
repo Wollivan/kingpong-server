@@ -3,10 +3,10 @@ const uniqid = require("uniqid");
 
 // Function to ADD an inventory item
 
-function mostAgainst(gamesArray, player) {
+function mostAgainst(gamesArray, player, noString) {
   let counts = {};
   let compare = 0;
-  let mostFrequent = "no wins";
+  let mostFrequent = noString;
 
   for (let i = 0; i < gamesArray.length; i++) {
     let opponent;
@@ -15,7 +15,7 @@ function mostAgainst(gamesArray, player) {
     } else {
       opponent = gamesArray[i].playerOneName;
     }
-    console.log(opponent, player);
+    // console.log(opponent, player);
     // console.log(opponent);
     if (!counts[opponent]) {
       counts[opponent] = 1;
@@ -243,10 +243,18 @@ function addGame(req, res) {
       );
     });
 
-    const playerOneMostWinsAgainst = mostAgainst(playerOneGamesW, 1);
-    const playerTwoMostWinsAgainst = mostAgainst(playerTwoGamesW, 2);
-    const playerOneMostLossesAgainst = mostAgainst(playerOneGamesL, 1);
-    const playerTwoMostLossesAgainst = mostAgainst(playerTwoGamesL, 1);
+    const playerOneMostWinsAgainst = mostAgainst(playerOneGamesW, 1, "no wins");
+    const playerTwoMostWinsAgainst = mostAgainst(playerTwoGamesW, 2, "no wins");
+    const playerOneMostLossesAgainst = mostAgainst(
+      playerOneGamesL,
+      1,
+      "no losses"
+    );
+    const playerTwoMostLossesAgainst = mostAgainst(
+      playerTwoGamesL,
+      2,
+      "no losses"
+    );
 
     const playerOneNew = {
       name: playerOneName,
