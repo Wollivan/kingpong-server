@@ -52,7 +52,7 @@ module.exports.handler = async (event, context) => {
   // and here
 
   // make sure you close the connection when you are done
-  mongoose.disconnect();
+  // mongoose.connection.close();
 
   return result;
 };
