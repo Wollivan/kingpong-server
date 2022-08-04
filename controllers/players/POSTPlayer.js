@@ -1,15 +1,17 @@
 const fs = require("fs");
 const uniqid = require("uniqid");
+const Player = require("../../models/player");
 
 // Function to ADD a player
 
-function addPlayer(req, res) {
+async function addPlayer(req, res) {
   try {
     const { playerName } = req.body;
+    console.log(req.body);
     console.log(playerName);
-    const playerData = JSON.parse(fs.readFileSync("./data/players.json"));
+
     const newPlayer = {
-      id: uniqid(),
+      // id: uniqid(),
       name: playerName,
       wins: "-",
       losses: "-",
@@ -19,8 +21,11 @@ function addPlayer(req, res) {
       mostWinsAgainst: "-",
       mostLossesAgainst: "-",
     };
-    playerData.push(newPlayer);
-    fs.writeFileSync("./data/players.json", JSON.stringify(playerData));
+
+    await Player.create(newPlayer);
+
+    // playerData.push(newPlayer);
+    // fs.writeFileSync("./data/players.json", JSON.stringify(playerData));
     return res.status(201).json(newPlayer);
   } catch (err) {
     return res

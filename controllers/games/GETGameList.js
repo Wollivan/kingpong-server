@@ -1,15 +1,12 @@
-const fs = require("fs");
-
+const mongoose = require("mongoose");
+mongoose.connect(process.env.DATABASE_URL);
+const Game = require("../../models/game");
 // Function to GET inventory list
 
-function getGameList(req, res) {
+async function getGameList(req, res) {
   try {
-    const gameData = JSON.parse(fs.readFileSync("./data/games.json"));
-
-    if (!gameData) {
-      res.status(404).json({ message: "game list not found" });
-    }
-    return res.status(200).json(gameData);
+    const games = await Game.find();
+    return res.send(games);
   } catch (err) {
     return res
       .status(500)
