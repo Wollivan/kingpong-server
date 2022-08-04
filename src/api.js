@@ -50,6 +50,10 @@ module.exports.handler = async (event, context) => {
   // you can do other things here
   const result = await handler(event, context);
   // and here
+
+  // make sure you close the connection when you are done
+  mongoose.disconnect();
+
   return result;
 };
 
