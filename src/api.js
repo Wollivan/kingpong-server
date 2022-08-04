@@ -13,7 +13,7 @@ app.use(cors());
 // mongoose test
 const mongoose = require("mongoose");
 
-mongoose.connect(process.env.DATABASE_URL);
+// mongoose.connect(process.env.DATABASE_URL);
 
 const Game = require("./models/game");
 
@@ -28,6 +28,22 @@ app.use("/.netlify/functions/api", gamesRouter);
 app.use("/.netlify/functions/api", playersRouter);
 
 // module.exports.handler = serverless(app);
+
+exports.connect = async function () {
+  if (conn == null) {
+    conn = mongoose
+      .connect(process.env.DATABASE_URL, {
+        serverSelectionTimeoutMS: 5000,
+      })
+      .then(() => mongoose);
+
+    // `await`ing connection after assigning to the `conn` variable
+    // to avoid multiple function calls creating new connections
+    await conn;
+  }
+
+  return conn;
+};
 
 const handler = serverless(app);
 module.exports.handler = async (event, context) => {
