@@ -10,7 +10,6 @@ const playersRouter = require("./routes/players/index");
 app.use(express.json());
 app.use(cors());
 
-// mongoose test
 const mongoose = require("mongoose");
 
 mongoose.connect(process.env.DATABASE_URL);
@@ -22,28 +21,10 @@ app.get("/", async (request, response) => {
   response.send({ hello: "world" });
 });
 
-//mongoose test
-
 app.use("/.netlify/functions/api", gamesRouter);
 app.use("/.netlify/functions/api", playersRouter);
 
 // module.exports.handler = serverless(app);
-
-// exports.connect = async function () {
-//   if (conn == null) {
-//     conn = mongoose
-//       .connect(process.env.DATABASE_URL, {
-//         serverSelectionTimeoutMS: 5000,
-//       })
-//       .then(() => mongoose);
-
-//     // `await`ing connection after assigning to the `conn` variable
-//     // to avoid multiple function calls creating new connections
-//     await conn;
-//   }
-
-//   return conn;
-// };
 
 const handler = serverless(app);
 module.exports.handler = async (event, context) => {
@@ -53,10 +34,3 @@ module.exports.handler = async (event, context) => {
   // and here
   return result;
 };
-
-// app.use(`/.netlify/functions/api`, router);
-// app.use(express.static("public"));
-
-// app.listen(process.env.PORT || PORT, () => {
-//   console.log(`Express server listening on ${PORT} :-) !`);
-// });
