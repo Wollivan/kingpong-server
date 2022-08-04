@@ -13,6 +13,7 @@ async function addPlayer(req, res) {
     const newPlayer = {
       // id: uniqid(),
       name: playerName,
+      elo: 1000,
       wins: "-",
       losses: "-",
       perfectGames: "-",

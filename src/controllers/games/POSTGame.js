@@ -123,10 +123,29 @@ async function addGame(req, res) {
       return parseInt(game.playerOneScore) > parseInt(game.playerTwoScore);
     }).length;
 
-    // TODO most wins and losses against
+    // most wins and losses against uses functions stolen from https://github.com/moroshko/elo.js?files=1
+    const playerOneDetails = await Player.find({
+      name: playerOneName,
+    });
+    const playerTwoDetails = await Player.find({
+      name: playerTwoName,
+    });
+
+    const playerOneELO = playerOneDetails[0].elo;
+    const playerTwoELO = playerTwoDetails[0].elo;
+    let playerOneNewELO;
+    let playerTwoNewELO;
+    if (playerOneScore > playerTwoScore) {
+      playerOneNewELO = getNewRating(playerOneELO, playerTwoELO, 0);
+      playerTwoNewELO = getNewRating(playerTwoELO, playerOneELO, 1);
+    } else {
+      playerOneNewELO = getNewRating(playerOneELO, playerTwoELO, 1);
+      playerTwoNewELO = getNewRating(playerTwoELO, playerOneELO, 0);
+    }
 
     const playerOneNew = {
       name: playerOneName,
+      elo: playerOneNewELO,
       wins: playerOneWins,
       losses: playerOneLosses,
       perfectGames: playerOnePerfectGames,
@@ -138,6 +157,7 @@ async function addGame(req, res) {
 
     const playerTwoNew = {
       name: playerTwoName,
+      elo: playerTwoNewELO,
       wins: playerTwoWins,
       losses: playerTwoLosses,
       perfectGames: playerTwoPerfectGames,
@@ -148,8 +168,8 @@ async function addGame(req, res) {
     };
 
     // update players
-    console.log(playerOneNew);
-    console.log(playerTwoNew);
+    // console.log(playerOneNew);
+    // console.log(playerTwoNew);
     const playerOneFilter = { name: playerOneName };
     const playerTwoFilter = { name: playerTwoName };
     await Player.findOneAndUpdate(playerOneFilter, playerOneNew);
@@ -166,3 +186,20 @@ async function addGame(req, res) {
 }
 
 module.exports = addGame;
+
+function getNewRating(myRating, opponentRating, myGameResult) {
+  return myRating + getRatingDelta(myRating, opponentRating, myGameResult);
+}
+
+function getRatingDelta(myRating, opponentRating, myGameResult) {
+  if ([0, 0.5, 1].indexOf(myGameResult) === -1) {
+    return null;
+  }
+
+  var myChanceToWin = 1 / (1 + Math.pow(10, (opponentRating - myRating) / 400));
+
+  const newELO = Math.round(32 * (myGameResult - myChanceToWin));
+
+  console.log(newELO);
+  return newELO;
+}
