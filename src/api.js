@@ -1,4 +1,5 @@
 const express = require("express");
+const serverless = require("serverless-http");
 const app = express();
 const PORT = process.env.PORT || 8080;
 const cors = require("cors");
@@ -17,17 +18,21 @@ mongoose.connect(process.env.DATABASE_URL);
 const Game = require("./models/game");
 
 app.get("/test", async (request, response) => {
+  console.log("testtesttest");
   const games = await Game.find(); // mongoose
   response.send(games);
 });
 
 //mongoose test
 
-app.use("/", gamesRouter);
-app.use("/", playersRouter);
+app.use("/.netlify/functions/api", gamesRouter);
+app.use("/.netlify/functions/api", playersRouter);
 
-app.use(express.static("public"));
+module.exports.handler = serverless(app);
 
-app.listen(process.env.PORT || PORT, () => {
-  console.log(`Express server listening on ${PORT} :-) !`);
-});
+// app.use(`/.netlify/functions/api`, router);
+// app.use(express.static("public"));
+
+// app.listen(process.env.PORT || PORT, () => {
+//   console.log(`Express server listening on ${PORT} :-) !`);
+// });
