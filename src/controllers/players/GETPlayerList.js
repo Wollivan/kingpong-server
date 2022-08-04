@@ -9,7 +9,7 @@ async function getPlayerList(req, res) {
   try {
     const players = await Player.find();
     // make sure you close the connection when you are done
-    mongoose.connection.close();
+    // mongoose.connection.close();
     return res.send(players);
   } catch (err) {
     return res
