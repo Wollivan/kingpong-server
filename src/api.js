@@ -18,6 +18,7 @@ mongoose.connect(process.env.DATABASE_URL);
 const Game = require("./models/game");
 
 app.get("/", async (request, response) => {
+  console.log("hey");
   response.send({ hello: "world" });
 });
 
@@ -26,7 +27,15 @@ app.get("/", async (request, response) => {
 app.use("/.netlify/functions/api", gamesRouter);
 app.use("/.netlify/functions/api", playersRouter);
 
-module.exports.handler = serverless(app);
+// module.exports.handler = serverless(app);
+
+const handler = serverless(app);
+module.exports.handler = async (event, context) => {
+  // you can do other things here
+  const result = await handler(event, context);
+  // and here
+  return result;
+};
 
 // app.use(`/.netlify/functions/api`, router);
 // app.use(express.static("public"));
