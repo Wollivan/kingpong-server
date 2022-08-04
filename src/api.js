@@ -17,10 +17,8 @@ mongoose.connect(process.env.DATABASE_URL);
 
 const Game = require("./models/game");
 
-app.get("/test", async (request, response) => {
-  console.log("testtesttest");
-  const games = await Game.find(); // mongoose
-  response.send(games);
+app.get("/", async (request, response) => {
+  response.send({ hello: "world" });
 });
 
 //mongoose test
