@@ -29,31 +29,28 @@ app.use("/.netlify/functions/api", playersRouter);
 
 // module.exports.handler = serverless(app);
 
-exports.connect = async function () {
-  if (conn == null) {
-    conn = mongoose
-      .connect(process.env.DATABASE_URL, {
-        serverSelectionTimeoutMS: 5000,
-      })
-      .then(() => mongoose);
+// exports.connect = async function () {
+//   if (conn == null) {
+//     conn = mongoose
+//       .connect(process.env.DATABASE_URL, {
+//         serverSelectionTimeoutMS: 5000,
+//       })
+//       .then(() => mongoose);
 
-    // `await`ing connection after assigning to the `conn` variable
-    // to avoid multiple function calls creating new connections
-    await conn;
-  }
+//     // `await`ing connection after assigning to the `conn` variable
+//     // to avoid multiple function calls creating new connections
+//     await conn;
+//   }
 
-  return conn;
-};
+//   return conn;
+// };
 
 const handler = serverless(app);
 module.exports.handler = async (event, context) => {
+  mongoose.connect(process.env.DATABASE_URL);
   // you can do other things here
   const result = await handler(event, context);
   // and here
-
-  // make sure you close the connection when you are done
-  // mongoose.connection.close();
-
   return result;
 };
 
