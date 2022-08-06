@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL);
 const Game = require("../../models/game");
 const Player = require("../../models/player");
+const Challenge = require("../../models/challenge");
 
 async function addGame(req, res) {
   try {
@@ -175,6 +176,15 @@ async function addGame(req, res) {
     await Player.findOneAndUpdate(playerOneFilter, playerOneNew);
     await Player.findOneAndUpdate(playerTwoFilter, playerTwoNew);
     console.log("this far");
+
+    // check for and remove any challenges that have these two players
+    await Challenge.findOneAndDelete({
+      $or: [
+        { playerOneName: playerOneName, playerTwoName: playerTwoName },
+        { playerOneName: playerTwoName, playerTwoName: playerOneName },
+      ],
+    });
+
     //return the two players, for the call to then run 2 more axios calls to update them
     return res.status(201).json({ success: true });
   } catch (err) {
