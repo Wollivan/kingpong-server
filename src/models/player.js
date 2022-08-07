@@ -12,6 +12,7 @@ const playerSchema = new Schema({
   avgOpScore: Number,
   mostWinsAgainst: String,
   mostLossesAgainst: String,
+  tournamentCode: String,
 });
 
 const Player = mongoose.model("Player", playerSchema);

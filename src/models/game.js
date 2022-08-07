@@ -8,6 +8,7 @@ const gameSchema = new Schema({
   playerOneScore: Number,
   playerTwoScore: Number,
   gameDate: Date,
+  tournamentCode: String,
 });
 
 const Game = mongoose.model("Game", gameSchema);

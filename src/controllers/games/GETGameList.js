@@ -5,7 +5,10 @@ const Game = require("../../models/game");
 
 async function getGameList(req, res) {
   try {
-    const games = await Game.find();
+    const { tournamentCode } = req.query;
+    const games = await Game.find({ tournamentCode: tournamentCode });
+    console.log("Games got");
+    console.log(req.query);
     return res.send(games);
   } catch (err) {
     return res

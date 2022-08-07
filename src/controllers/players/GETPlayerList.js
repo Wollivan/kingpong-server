@@ -7,7 +7,8 @@ const Player = require("../../models/player");
 
 async function getPlayerList(req, res) {
   try {
-    const players = await Player.find();
+    const { tournamentCode } = req.query;
+    const players = await Player.find({ tournamentCode: tournamentCode });
     return res.send(players);
   } catch (err) {
     return res
