@@ -9,8 +9,13 @@ const Challenge = require("../../models/challenge");
 
 async function addGame(req, res) {
   try {
-    const { playerOneName, playerTwoName, playerOneScore, playerTwoScore } =
-      req.body;
+    const {
+      playerOneName,
+      playerTwoName,
+      playerOneScore,
+      playerTwoScore,
+      tournamentCode,
+    } = req.body;
 
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
@@ -26,6 +31,7 @@ async function addGame(req, res) {
       playerOneScore,
       playerTwoScore,
       gameDate: today,
+      tournamentCode,
     };
 
     // add the game to the database
