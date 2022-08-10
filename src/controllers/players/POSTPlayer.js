@@ -6,7 +6,7 @@ const Player = require("../../models/player");
 
 async function addPlayer(req, res) {
   try {
-    const { playerName } = req.body;
+    const { playerName, tournamentCode } = req.body;
     console.log(req.body);
     console.log(playerName);
 
@@ -21,6 +21,7 @@ async function addPlayer(req, res) {
       avgOpScore: 0,
       mostWinsAgainst: "-",
       mostLossesAgainst: "-",
+      tournamentCode: tournamentCode,
     };
 
     await Player.create(newPlayer);

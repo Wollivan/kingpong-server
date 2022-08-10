@@ -5,13 +5,14 @@ const Challenge = require("../../models/challenge");
 
 async function addChallenge(req, res) {
   try {
-    const { playerOneName, playerTwoName } = req.body;
+    const { playerOneName, playerTwoName, tournamentCode } = req.body;
 
     // add new entry for the game
     const newChallenge = {
       // gameId: uniqid(),
       playerOneName,
       playerTwoName,
+      tournamentCode,
     };
 
     // add the game to the database

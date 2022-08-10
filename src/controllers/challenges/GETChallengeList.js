@@ -5,7 +5,8 @@ const Challenge = require("../../models/challenge");
 
 async function getChallengeList(req, res) {
   try {
-    const challenges = await Challenge.find();
+    const { tournamentCode } = req.query;
+    const challenges = await Challenge.find({ tournamentCode: tournamentCode });
     return res.send(challenges);
   } catch (err) {
     return res
