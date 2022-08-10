@@ -7,7 +7,7 @@ const gameSchema = new Schema({
   playerTwoName: String,
   playerOneScore: Number,
   playerTwoScore: Number,
-  gameDate: Date,
+  gameDate: String,
   tournamentCode: String,
 });
 
