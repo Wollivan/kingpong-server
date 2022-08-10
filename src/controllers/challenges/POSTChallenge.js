@@ -14,7 +14,7 @@ async function addChallenge(req, res) {
       playerTwoName,
       tournamentCode,
     };
-
+    console.log(newChallenge);
     // add the game to the database
     await Challenge.create(newChallenge);
 
