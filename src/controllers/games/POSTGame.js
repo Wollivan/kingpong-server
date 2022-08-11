@@ -170,6 +170,12 @@ async function addGame(req, res) {
       newPlayerTwoGM = 1;
     }
 
+    //increase players kingpongCount
+    let playerOneKPCount = playerOneDetails[0].kingpongCount;
+    let playerTwoKPCount = playerTwoDetails[0].kingpongCount;
+    let newPlayerOneKPCount = playerOneKPCount + 1;
+    let newPlayerTwoKPCount = playerTwoKPCount + 1;
+
     const playerOneNew = {
       name: playerOneName,
       elo: playerOneNewELO,
@@ -181,6 +187,7 @@ async function addGame(req, res) {
       mostWinsAgainst: "-", //playerOneMostWinsAgainst,
       mostLossesAgainst: "-", //playerOneMostLossesAgainst,
       hasGoldenMonkey: newPlayerOneGM,
+      kingpongCount: newPlayerOneKPCount,
     };
 
     const playerTwoNew = {
@@ -194,6 +201,7 @@ async function addGame(req, res) {
       mostWinsAgainst: "-", //playerTwoMostWinsAgainst,
       mostLossesAgainst: "-", //playerTwoMostLossesAgainst,
       hasGoldenMonkey: newPlayerTwoGM,
+      kingpongCount: newPlayerTwoKPCount,
     };
 
     console.log(playerOneNew);
