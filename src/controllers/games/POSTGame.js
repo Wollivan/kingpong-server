@@ -152,6 +152,24 @@ async function addGame(req, res) {
       playerTwoNewELO = getNewRating(playerTwoELO, playerOneELO, 0);
     }
 
+    // give the winner the golden monkey if the loser had it
+    let playerOneGM = playerOneDetails[0].hasGoldenMonkey;
+    let playerTwoGM = playerTwoDetails[0].hasGoldenMonkey;
+    let newPlayerOneGM;
+    let newPlayerTwoGM;
+    // p1 wins and p2 had the crown
+    if (playerOneScore > playerTwoScore && playerTwoGM == 1) {
+      // p2 has golden monkey
+      newPlayerOneGM = 1;
+      newPlayerTwoGM = 0;
+    }
+    // p2 wins and p1 had the crown
+    if (playerTwoScore > playerOneScore && playerOneGM == 1) {
+      // p2 has golden monkey
+      newPlayerOneGM = 0;
+      newPlayerTwoGM = 1;
+    }
+
     const playerOneNew = {
       name: playerOneName,
       elo: playerOneNewELO,
@@ -162,6 +180,7 @@ async function addGame(req, res) {
       avgOpScore: playerOneAvgOpScore,
       mostWinsAgainst: "-", //playerOneMostWinsAgainst,
       mostLossesAgainst: "-", //playerOneMostLossesAgainst,
+      hasGoldenMonkey: newPlayerOneGM,
     };
 
     const playerTwoNew = {
@@ -174,8 +193,11 @@ async function addGame(req, res) {
       avgOpScore: playerTwoAvgOpScore,
       mostWinsAgainst: "-", //playerTwoMostWinsAgainst,
       mostLossesAgainst: "-", //playerTwoMostLossesAgainst,
+      hasGoldenMonkey: newPlayerTwoGM,
     };
 
+    console.log(playerOneNew);
+    console.log(playerTwoNew);
     // update players
     // console.log(playerOneNew);
     // console.log(playerTwoNew);

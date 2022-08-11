@@ -22,6 +22,7 @@ async function addPlayer(req, res) {
       mostWinsAgainst: "-",
       mostLossesAgainst: "-",
       tournamentCode: tournamentCode,
+      hasGoldenMonkey: false,
     };
 
     await Player.create(newPlayer);
