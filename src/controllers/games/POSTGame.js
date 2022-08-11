@@ -155,8 +155,8 @@ async function addGame(req, res) {
     // give the winner the golden monkey if the loser had it
     let playerOneGM = playerOneDetails[0].hasGoldenMonkey;
     let playerTwoGM = playerTwoDetails[0].hasGoldenMonkey;
-    let newPlayerOneGM;
-    let newPlayerTwoGM;
+    let newPlayerOneGM = playerOneGM;
+    let newPlayerTwoGM = playerTwoGM;
     // p1 wins and p2 had the crown
     if (playerOneScore > playerTwoScore && playerTwoGM == 1) {
       // p2 has golden monkey
@@ -170,11 +170,21 @@ async function addGame(req, res) {
       newPlayerTwoGM = 1;
     }
 
-    //increase players kingpongCount
+    // increase players kingpongCount
     let playerOneKPCount = playerOneDetails[0].kingpongCount;
     let playerTwoKPCount = playerTwoDetails[0].kingpongCount;
-    let newPlayerOneKPCount = playerOneKPCount + 1;
-    let newPlayerTwoKPCount = playerTwoKPCount + 1;
+    let newPlayerOneKPCount = playerOneKPCount;
+    let newPlayerTwoKPCount = playerTwoKPCount;
+    // p1 wins with the crown
+    if (playerOneScore > playerTwoScore && newPlayerOneGM == 1) {
+      newPlayerOneKPCount++;
+      // newPlayerTwoKPCount = playerTwoKPCount;
+    }
+    // p2 wins with the crown
+    if (playerTwoScore > playerOneScore && newPlayerTwoGM == 1) {
+      // newPlayerOneKPCount = playerOneKPCount;
+      newPlayerTwoKPCount++;
+    }
 
     const playerOneNew = {
       name: playerOneName,
