@@ -4,10 +4,7 @@ const Tournament = require("../../models/tournament");
 
 async function getTournament(req, res) {
   try {
-    const { tournamentCode } = req.body;
-    const tournament = await Tournament.find({
-      tournamentCode: tournamentCode,
-    });
+    const tournament = await Tournament.find();
     return res.send(tournament);
   } catch (err) {
     return res

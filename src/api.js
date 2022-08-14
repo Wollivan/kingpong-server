@@ -7,6 +7,7 @@ require("dotenv").config();
 const gamesRouter = require("./routes/games/index");
 const playersRouter = require("./routes/players/index");
 const challengesRouter = require("./routes/challenges/index");
+const tournamentsRouter = require("./routes/tournaments/index");
 
 app.use(express.json());
 app.use(cors());
@@ -25,6 +26,7 @@ app.get("/", async (request, response) => {
 app.use("/.netlify/functions/api", gamesRouter);
 app.use("/.netlify/functions/api", playersRouter);
 app.use("/.netlify/functions/api", challengesRouter);
+app.use("/.netlify/functions/api", tournamentsRouter);
 
 // module.exports.handler = serverless(app);
 
