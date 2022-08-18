@@ -175,6 +175,7 @@ async function addGame(req, res) {
     let playerTwoKPCount = playerTwoDetails[0].kingpongCount;
     let newPlayerOneKPCount = playerOneKPCount;
     let newPlayerTwoKPCount = playerTwoKPCount;
+
     // p1 wins with the crown
     if (playerOneScore > playerTwoScore && newPlayerOneGM == 1) {
       newPlayerOneKPCount++;
