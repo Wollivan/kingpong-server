@@ -6,6 +6,7 @@ mongoose.connect(process.env.DATABASE_URL);
 const Game = require("../../models/game");
 const Player = require("../../models/player");
 const Challenge = require("../../models/challenge");
+const EloRating = require("elo-rating");
 
 async function addGame(req, res) {
   try {
@@ -142,15 +143,24 @@ async function addGame(req, res) {
 
     const playerOneELO = playerOneDetails[0].elo;
     const playerTwoELO = playerTwoDetails[0].elo;
-    let playerOneNewELO;
-    let playerTwoNewELO;
-    if (playerOneScore > playerTwoScore) {
-      playerOneNewELO = getNewRating(playerOneELO, playerTwoELO, 0);
-      playerTwoNewELO = getNewRating(playerTwoELO, playerOneELO, 1);
-    } else {
-      playerOneNewELO = getNewRating(playerOneELO, playerTwoELO, 1);
-      playerTwoNewELO = getNewRating(playerTwoELO, playerOneELO, 0);
+
+    let p1Wins = true;
+    if (playerOneScore < playerTwoScore) {
+      p1Wins = false;
     }
+
+    let eloResult = EloRating.calculate(playerOneELO, playerTwoELO, p1Wins);
+
+    let playerOneNewELO = eloResult.playerRating;
+    let playerTwoNewELO = eloResult.opponentRating;
+
+    // if (playerOneScore > playerTwoScore) {
+    //   playerOneNewELO = getNewRating(playerOneELO, playerTwoELO, 0);
+    //   playerTwoNewELO = getNewRating(playerTwoELO, playerOneELO, 1);
+    // } else {
+    //   playerOneNewELO = getNewRating(playerOneELO, playerTwoELO, 1);
+    //   playerTwoNewELO = getNewRating(playerTwoELO, playerOneELO, 0);
+    // }
 
     // give the winner the golden monkey if the loser had it
     let playerOneGM = playerOneDetails[0].hasGoldenMonkey;
@@ -246,19 +256,19 @@ async function addGame(req, res) {
 
 module.exports = addGame;
 
-function getNewRating(myRating, opponentRating, myGameResult) {
-  return myRating + getRatingDelta(myRating, opponentRating, myGameResult);
-}
+// function getNewRating(myRating, opponentRating, myGameResult) {
+//   return myRating + getRatingDelta(myRating, opponentRating, myGameResult);
+// }
 
-function getRatingDelta(myRating, opponentRating, myGameResult) {
-  if ([0, 0.5, 1].indexOf(myGameResult) === -1) {
-    return null;
-  }
+// function getRatingDelta(myRating, opponentRating, myGameResult) {
+//   if ([0, 0.5, 1].indexOf(myGameResult) === -1) {
+//     return null;
+//   }
 
-  var myChanceToWin = 1 / (1 + Math.pow(10, (opponentRating - myRating) / 400));
+//   var myChanceToWin = 1 / (1 + Math.pow(10, (opponentRating - myRating) / 400));
 
-  const newELO = Math.round(32 * (myGameResult - myChanceToWin));
+//   const newELO = Math.round(32 * (myGameResult - myChanceToWin));
 
-  console.log(newELO);
-  return newELO;
-}
+//   console.log(newELO);
+//   return newELO;
+// }
