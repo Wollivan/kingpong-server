@@ -153,6 +153,8 @@ async function addGame(req, res) {
 
     let playerOneNewELO = eloResult.playerRating;
     let playerTwoNewELO = eloResult.opponentRating;
+    console.log(playerOneELO, playerOneNewELO);
+    console.log(playerTwoELO, playerTwoNewELO);
 
     // if (playerOneScore > playerTwoScore) {
     //   playerOneNewELO = getNewRating(playerOneELO, playerTwoELO, 0);
