@@ -144,10 +144,16 @@ async function addGame(req, res) {
     const playerOneELO = playerOneDetails[0].elo;
     const playerTwoELO = playerTwoDetails[0].elo;
 
+    console.log("playerOneELO", playerOneELO);
+    console.log("playerTwoELO", playerTwoELO);
+
     let p1Wins = true;
+    console.log("p1Wins", p1Wins);
     if (playerOneScore < playerTwoScore) {
       p1Wins = false;
+      console.log("p1WinsTWO", p1Wins);
     }
+    console.log("p1WinsThree", p1Wins);
 
     let eloResult = EloRating.calculate(playerOneELO, playerTwoELO, p1Wins);
 
