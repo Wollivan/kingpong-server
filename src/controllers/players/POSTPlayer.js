@@ -13,7 +13,7 @@ async function addPlayer(req, res) {
     const newPlayer = {
       // id: uniqid(),
       name: playerName,
-      tiMetric: 1500,
+      tiMetric: 100,
       wins: "-",
       losses: "-",
       perfectGames: "-",
