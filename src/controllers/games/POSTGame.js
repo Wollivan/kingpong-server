@@ -6,13 +6,12 @@ mongoose.connect(process.env.DATABASE_URL);
 const Game = require("../../models/game");
 const Player = require("../../models/player");
 const Challenge = require("../../models/challenge");
-const EloRating = require("elo-rating");
 
 async function addGame(req, res) {
   try {
-    const { playerOneName, playerTwoName, playerOneScore, playerTwoScore, tournamentCode } = req.query;
+    const { playerOneName, playerTwoName, playerOneScore, playerTwoScore, tournamentCode } = req.body;
 
-    console.log(req.body);
+    // console.log(req.body);
 
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
@@ -32,7 +31,6 @@ async function addGame(req, res) {
 
     // add the game to the database
     await Game.create(newGame);
-
     // get data to update player stats
     const allPlayerOneGames = await Game.find({
       $or: [{ playerOneName: playerOneName }, { playerTwoName: playerOneName }],
@@ -126,7 +124,6 @@ async function addGame(req, res) {
       return parseInt(game.playerOneScore) > parseInt(game.playerTwoScore);
     }).length;
 
-    // most wins and losses against uses functions stolen from https://github.com/moroshko/elo.js?files=1
     const playerOneDetails = await Player.find({
       name: playerOneName,
     });
@@ -137,11 +134,9 @@ async function addGame(req, res) {
     const playerOneTiMetric = playerOneDetails[0].tiMetric;
     const playerTwoTiMetric = playerTwoDetails[0].tiMetric;
 
-    console.log("playerOneELO", playerOneELO);
-    console.log("playerTwoELO", playerTwoELO);
+    let playerOneNewTiMetric = 0;
+    let playerTwoNewTiMetric = 0;
 
-    const playerOneNewTiMetric = 0;
-    const playerTwoNewTiMetric = 0;
     // the winner takes from the losers tiMetric, equal to the score diff
     if (playerOneScore > playerTwoScore) {
       playerOneNewTiMetric = playerOneScore - playerTwoScore;
@@ -149,7 +144,7 @@ async function addGame(req, res) {
       playerOneNewTiMetric = playerOneTiMetric + diff;
       playerTwoNewTiMetric = playerTwoTiMetric - diff;
     } else {
-      const diff = playerOneScore - playerTwoScore;
+      const diff = playerTwoScore - playerOneScore;
       playerOneNewTiMetric = playerOneTiMetric - diff;
       playerTwoNewTiMetric = playerTwoTiMetric + diff;
     }
@@ -245,20 +240,3 @@ async function addGame(req, res) {
 }
 
 module.exports = addGame;
-
-// function getNewRating(myRating, opponentRating, myGameResult) {
-//   return myRating + getRatingDelta(myRating, opponentRating, myGameResult);
-// }
-
-// function getRatingDelta(myRating, opponentRating, myGameResult) {
-//   if ([0, 0.5, 1].indexOf(myGameResult) === -1) {
-//     return null;
-//   }
-
-//   var myChanceToWin = 1 / (1 + Math.pow(10, (opponentRating - myRating) / 400));
-
-//   const newELO = Math.round(32 * (myGameResult - myChanceToWin));
-
-//   console.log(newELO);
-//   return newELO;
-// }
