@@ -10,13 +10,7 @@ const EloRating = require("elo-rating");
 
 async function addGame(req, res) {
   try {
-    const {
-      playerOneName,
-      playerTwoName,
-      playerOneScore,
-      playerTwoScore,
-      tournamentCode,
-    } = req.body;
+    const { playerOneName, playerTwoName, playerOneScore, playerTwoScore, tournamentCode } = req.query;
 
     console.log(req.body);
 
@@ -25,7 +19,6 @@ async function addGame(req, res) {
     const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = today.getFullYear();
     today = dd + "/" + mm + "/" + yyyy;
-
     // add new entry for the game
     const newGame = {
       // gameId: uniqid(),
@@ -141,34 +134,25 @@ async function addGame(req, res) {
       name: playerTwoName,
     });
 
-    const playerOneELO = playerOneDetails[0].elo;
-    const playerTwoELO = playerTwoDetails[0].elo;
+    const playerOneTiMetric = playerOneDetails[0].tiMetric;
+    const playerTwoTiMetric = playerTwoDetails[0].tiMetric;
 
     console.log("playerOneELO", playerOneELO);
     console.log("playerTwoELO", playerTwoELO);
 
-    let p1Wins = true;
-    console.log("p1Wins", p1Wins);
-    if (playerOneScore < playerTwoScore) {
-      p1Wins = false;
-      console.log("p1WinsTWO", p1Wins);
+    const playerOneNewTiMetric = 0;
+    const playerTwoNewTiMetric = 0;
+    // the winner takes from the losers tiMetric, equal to the score diff
+    if (playerOneScore > playerTwoScore) {
+      playerOneNewTiMetric = playerOneScore - playerTwoScore;
+      const diff = playerOneScore - playerTwoScore;
+      playerOneNewTiMetric = playerOneTiMetric + diff;
+      playerTwoNewTiMetric = playerTwoTiMetric - diff;
+    } else {
+      const diff = playerOneScore - playerTwoScore;
+      playerOneNewTiMetric = playerOneTiMetric - diff;
+      playerTwoNewTiMetric = playerTwoTiMetric + diff;
     }
-    console.log("p1WinsThree", p1Wins);
-
-    let eloResult = EloRating.calculate(playerOneELO, playerTwoELO, p1Wins);
-
-    let playerOneNewELO = eloResult.playerRating;
-    let playerTwoNewELO = eloResult.opponentRating;
-    console.log(playerOneELO, playerOneNewELO);
-    console.log(playerTwoELO, playerTwoNewELO);
-
-    // if (playerOneScore > playerTwoScore) {
-    //   playerOneNewELO = getNewRating(playerOneELO, playerTwoELO, 0);
-    //   playerTwoNewELO = getNewRating(playerTwoELO, playerOneELO, 1);
-    // } else {
-    //   playerOneNewELO = getNewRating(playerOneELO, playerTwoELO, 1);
-    //   playerTwoNewELO = getNewRating(playerTwoELO, playerOneELO, 0);
-    // }
 
     // give the winner the golden monkey if the loser had it
     let playerOneGM = playerOneDetails[0].hasGoldenMonkey;
@@ -207,7 +191,7 @@ async function addGame(req, res) {
 
     const playerOneNew = {
       name: playerOneName,
-      elo: playerOneNewELO,
+      tiMetric: playerOneNewTiMetric,
       wins: playerOneWins,
       losses: playerOneLosses,
       perfectGames: playerOnePerfectGames,
@@ -221,7 +205,7 @@ async function addGame(req, res) {
 
     const playerTwoNew = {
       name: playerTwoName,
-      elo: playerTwoNewELO,
+      tiMetric: playerTwoNewTiMetric,
       wins: playerTwoWins,
       losses: playerTwoLosses,
       perfectGames: playerTwoPerfectGames,
@@ -256,9 +240,7 @@ async function addGame(req, res) {
     return res.status(201).json({ success: true });
   } catch (err) {
     console.log("BROKEN");
-    return res
-      .status(500)
-      .json({ message: "No game data found", error: err.message });
+    return res.status(500).json({ message: "No game data found", error: err.message });
   }
 }
 
