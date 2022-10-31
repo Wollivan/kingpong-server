@@ -42,7 +42,7 @@ async function seed() {
 
   await Player.create({
     name: "James Ford",
-    elo: 1000,
+    tiMetric: 1000,
     wins: "-",
     losses: "-",
     perfectGames: "-",
@@ -54,7 +54,7 @@ async function seed() {
 
   await Player.create({
     name: "Tim Smith",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -69,7 +69,7 @@ async function seed() {
 
   await Player.create({
     name: "Jack Doy",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -84,7 +84,7 @@ async function seed() {
 
   await Player.create({
     name: "Kane StQ",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -99,7 +99,7 @@ async function seed() {
 
   await Player.create({
     name: "Luca",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "-",
@@ -114,7 +114,7 @@ async function seed() {
 
   await Player.create({
     name: "DB",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "-",
@@ -129,7 +129,7 @@ async function seed() {
 
   await Player.create({
     name: "JJ Waters",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -144,7 +144,7 @@ async function seed() {
 
   await Player.create({
     name: "Henry Hoffman",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -159,7 +159,7 @@ async function seed() {
 
   await Player.create({
     name: "Chris Seaman",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -174,7 +174,7 @@ async function seed() {
 
   await Player.create({
     name: "Matt Hood",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -189,7 +189,7 @@ async function seed() {
 
   await Player.create({
     name: "Fred Hoffman",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -204,7 +204,7 @@ async function seed() {
 
   await Player.create({
     name: "James Adams",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -219,7 +219,7 @@ async function seed() {
 
   await Player.create({
     name: "Patrick Grant",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -234,7 +234,7 @@ async function seed() {
 
   await Player.create({
     name: "V Vatsavaye",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -249,7 +249,7 @@ async function seed() {
 
   await Player.create({
     name: "Rich Saunders",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -264,7 +264,7 @@ async function seed() {
 
   await Player.create({
     name: "James Rix",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",
@@ -279,7 +279,7 @@ async function seed() {
 
   await Player.create({
     name: "Kal",
-    elo: 1500,
+    tiMetric: 1500,
     wins: "0",
     losses: "0",
     perfectGames: "0",

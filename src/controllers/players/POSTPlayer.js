@@ -13,7 +13,7 @@ async function addPlayer(req, res) {
     const newPlayer = {
       // id: uniqid(),
       name: playerName,
-      elo: 1500,
+      tiMetric: 1500,
       wins: "-",
       losses: "-",
       perfectGames: "-",
@@ -32,9 +32,7 @@ async function addPlayer(req, res) {
     // fs.writeFileSync("./data/players.json", JSON.stringify(playerData));
     return res.status(201).json(newPlayer);
   } catch (err) {
-    return res
-      .status(500)
-      .json({ message: "No player data found", error: err.message });
+    return res.status(500).json({ message: "No player data found", error: err.message });
   }
 }
 
