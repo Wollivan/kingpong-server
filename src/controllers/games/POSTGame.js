@@ -138,12 +138,14 @@ async function addGame(req, res) {
     let playerTwoNewTiMetric = 0;
 
     // the winner takes from the losers tiMetric, equal to the score diff
-    if (playerOneScore > playerTwoScore) {
-      playerOneNewTiMetric = playerOneScore - playerTwoScore;
+    if (parseInt(playerOneScore) > parseInt(playerTwoScore)) {
+      console.log("p1 wins");
       const diff = playerOneScore - playerTwoScore;
+      console.log("diff", diff);
       playerOneNewTiMetric = playerOneTiMetric + diff;
       playerTwoNewTiMetric = playerTwoTiMetric - diff;
     } else {
+      console.log("p2 wins");
       const diff = playerTwoScore - playerOneScore;
       playerOneNewTiMetric = playerOneTiMetric - diff;
       playerTwoNewTiMetric = playerTwoTiMetric + diff;
@@ -154,6 +156,11 @@ async function addGame(req, res) {
     let playerTwoGM = playerTwoDetails[0].hasGoldenMonkey;
     let newPlayerOneGM = playerOneGM;
     let newPlayerTwoGM = playerTwoGM;
+    // increase players kingpongCount AFTER passing the crown (if it needed passing at all)
+    let playerOneKPCount = playerOneDetails[0].kingpongCount;
+    let playerTwoKPCount = playerTwoDetails[0].kingpongCount;
+    let newPlayerOneKPCount = playerOneKPCount;
+    let newPlayerTwoKPCount = playerTwoKPCount;
     // if either player has the crown
     if (playerOneGM == 1 || playerTwoGM == 1) {
       // pass the crown
@@ -170,22 +177,18 @@ async function addGame(req, res) {
         newPlayerTwoGM = 1;
       }
 
-      // increase players kingpongCount AFTER passing the crown (if it needed passing at all)
-      let playerOneKPCount = playerOneDetails[0].kingpongCount;
-      let playerTwoKPCount = playerTwoDetails[0].kingpongCount;
-      let newPlayerOneKPCount = playerOneKPCount;
-      let newPlayerTwoKPCount = playerTwoKPCount;
-
+      console.log(newPlayerOneKPCount);
       // p1 wins with the crown
       if (playerOneScore > playerTwoScore && newPlayerOneGM == 1) {
-        newPlayerOneKPCount++;
+        newPlayerOneKPCount = newPlayerOneKPCount + 1;
       }
       // p2 wins with the crown
       if (playerTwoScore > playerOneScore && newPlayerTwoGM == 1) {
-        newPlayerTwoKPCount++;
+        newPlayerTwoKPCount = newPlayerTwoKPCount + 1;
       }
     }
-
+    console.log("here");
+    console.log("after here");
     const playerOneNew = {
       name: playerOneName,
       tiMetric: playerOneNewTiMetric,
