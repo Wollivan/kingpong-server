@@ -24,6 +24,8 @@ async function addPlayer(req, res) {
       tournamentCode: tournamentCode,
       hasGoldenMonkey: false,
       kingpongCount: 0,
+      currentStreak: 0,
+      highestStreak: 0,
     };
 
     await Player.create(newPlayer);

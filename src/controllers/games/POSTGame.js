@@ -187,8 +187,36 @@ async function addGame(req, res) {
         newPlayerTwoKPCount = newPlayerTwoKPCount + 1;
       }
     }
-    console.log("here");
-    console.log("after here");
+
+    // current streak
+    const playerOneCurrentStreak = playerOneDetails[0].currentStreak;
+    const playerTwoCurrentStreak = playerTwoDetails[0].currentStreak;
+    let playerOneNewCurrentStreak = playerOneCurrentStreak;
+    let playerTwoNewCurrentStreak = playerTwoCurrentStreak;
+
+    //player one wins
+    if (playerOneScore > playerTwoScore) {
+      playerOneNewCurrentStreak = playerOneNewCurrentStreak + 1;
+      playerTwoNewCurrentStreak = 0;
+    } else {
+      playerTwoNewCurrentStreak = playerTwoNewCurrentStreak + 1;
+      playerOneNewCurrentStreak = 0;
+    }
+
+    // highest streak
+    const playerOneHighestStreak = playerOneDetails[0].highestStreak;
+    const playerTwoHighestStreak = playerTwoDetails[0].highestStreak;
+    let playerOneNewHighestStreak = playerOneHighestStreak;
+    let playerTwoNewHighestStreak = playerTwoHighestStreak;
+
+    if (playerOneNewCurrentStreak > playerOneHighestStreak) {
+      playerOneNewHighestStreak = playerOneNewCurrentStreak;
+    }
+
+    if (playerTwoNewCurrentStreak > playerTwoHighestStreak) {
+      playerTwoNewHighestStreak = playerTwoNewCurrentStreak;
+    }
+
     const playerOneNew = {
       name: playerOneName,
       tiMetric: playerOneNewTiMetric,
@@ -201,6 +229,8 @@ async function addGame(req, res) {
       mostLossesAgainst: "-", //playerOneMostLossesAgainst,
       hasGoldenMonkey: newPlayerOneGM,
       kingpongCount: newPlayerOneKPCount,
+      currentStreak: playerOneNewCurrentStreak,
+      highestStreak: playerOneNewHighestStreak,
     };
 
     const playerTwoNew = {
@@ -215,6 +245,8 @@ async function addGame(req, res) {
       mostLossesAgainst: "-", //playerTwoMostLossesAgainst,
       hasGoldenMonkey: newPlayerTwoGM,
       kingpongCount: newPlayerTwoKPCount,
+      currentStreak: playerTwoNewCurrentStreak,
+      highestStreak: playerTwoNewHighestStreak,
     };
 
     console.log(playerOneNew);

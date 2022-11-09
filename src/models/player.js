@@ -15,6 +15,8 @@ const playerSchema = new Schema({
   tournamentCode: String,
   hasGoldenMonkey: Number,
   kingpongCount: Number,
+  currentStreak: Number,
+  highestStreak: Number,
 });
 
 const Player = mongoose.model("Player", playerSchema);
