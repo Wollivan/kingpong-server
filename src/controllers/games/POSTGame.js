@@ -217,6 +217,19 @@ async function addGame(req, res) {
       playerTwoNewHighestStreak = playerTwoNewCurrentStreak;
     }
 
+    // highestTIM
+    const playerOneHighestTIM = playerOneDetails[0].highestTIM;
+    const playerTwoHighestTIM = playerTwoDetails[0].highestTIM;
+    let playerOneNewHighestTIM = playerOneHighestTIM;
+    let playerTwoNewHighestTIM = playerTwoHighestTIM;
+
+    if (playerOneNewTiMetric > playerOneDetails[0].highestTIM) {
+      playerOneNewHighestTIM = playerOneNewTiMetric;
+    }
+    if (playerTwoNewTiMetric > playerTwoDetails[0].highestTIM) {
+      playerTwoNewHighestTIM = playerTwoNewTiMetric;
+    }
+
     const playerOneNew = {
       name: playerOneName,
       tiMetric: playerOneNewTiMetric,
@@ -231,6 +244,7 @@ async function addGame(req, res) {
       kingpongCount: newPlayerOneKPCount,
       currentStreak: playerOneNewCurrentStreak,
       highestStreak: playerOneNewHighestStreak,
+      highestTIM: playerOneNewHighestTIM,
     };
 
     const playerTwoNew = {
@@ -247,6 +261,7 @@ async function addGame(req, res) {
       kingpongCount: newPlayerTwoKPCount,
       currentStreak: playerTwoNewCurrentStreak,
       highestStreak: playerTwoNewHighestStreak,
+      highestTIM: playerTwoNewHighestTIM,
     };
 
     console.log(playerOneNew);

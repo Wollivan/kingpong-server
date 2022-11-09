@@ -26,6 +26,7 @@ async function addPlayer(req, res) {
       kingpongCount: 0,
       currentStreak: 0,
       highestStreak: 0,
+      highestTIM: 100,
     };
 
     await Player.create(newPlayer);

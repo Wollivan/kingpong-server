@@ -17,6 +17,7 @@ const playerSchema = new Schema({
   kingpongCount: Number,
   currentStreak: Number,
   highestStreak: Number,
+  highestTIM: Number,
 });
 
 const Player = mongoose.model("Player", playerSchema);
