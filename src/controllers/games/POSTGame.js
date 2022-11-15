@@ -137,16 +137,17 @@ async function addGame(req, res) {
     let playerOneNewTiMetric = 0;
     let playerTwoNewTiMetric = 0;
 
-    // the winner takes from the losers tiMetric, equal to the score diff
+    // the winner takes from the losers tiMetric, equal to the score diff multiplied by loser tiMetric
     if (parseInt(playerOneScore) > parseInt(playerTwoScore)) {
       console.log("p1 wins");
-      const diff = playerOneScore - playerTwoScore;
+      // (11 - 1) * 1
+      const diff = Math.ceil((playerOneScore - playerTwoScore) * (playerTwoTiMetric / 100));
       console.log("diff", diff);
       playerOneNewTiMetric = playerOneTiMetric + diff;
       playerTwoNewTiMetric = playerTwoTiMetric - diff;
     } else {
       console.log("p2 wins");
-      const diff = playerTwoScore - playerOneScore;
+      const diff = Math.ceil((playerTwoScore - playerOneScore) * (playerOneTiMetric / 100));
       playerOneNewTiMetric = playerOneTiMetric - diff;
       playerTwoNewTiMetric = playerTwoTiMetric + diff;
     }
