@@ -137,19 +137,33 @@ async function addGame(req, res) {
     let playerOneNewTiMetric = 0;
     let playerTwoNewTiMetric = 0;
 
-    // the winner takes from the losers tiMetric, equal to the score diff multiplied by loser tiMetric
+    // the winner takes from the losers Table Index Modifier
     if (parseInt(playerOneScore) > parseInt(playerTwoScore)) {
-      console.log("p1 wins");
-      // (11 - 1) * 1
-      const diff = Math.ceil((playerOneScore - playerTwoScore) * (playerTwoTiMetric / 100));
-      console.log("diff", diff);
-      playerOneNewTiMetric = playerOneTiMetric + diff;
-      playerTwoNewTiMetric = playerTwoTiMetric - diff;
+      // Player One Wins
+      let diff = Math.ceil((playerOneScore - playerTwoScore) * (playerTwoTiMetric / 100));
+      let multiplier = 1; // 1 by default, so if the scores are equal they dont get multiplied
+      if (parseInt(playerOneTiMetric) > parseInt(playerTwoTiMetric)) {
+        // greater T.I.M. wins, then T.I.M - difference between T.I.M.s
+        multiplier = (playerOneTiMetric - (playerOneTiMetric - playerTwoTiMetric)) / 100;
+      } else if (parseInt(playerOneTiMetric) < parseInt(playerTwoTiMetric)) {
+        // lower T.I.M. wins, then T.I.M difference
+        multiplier = (playerTwoTiMetric - playerOneTiMetric) / 100;
+      }
+      playerOneNewTiMetric = playerOneTiMetric + diff * multiplier;
+      playerTwoNewTiMetric = playerTwoTiMetric - diff * multiplier;
     } else {
-      console.log("p2 wins");
-      const diff = Math.ceil((playerTwoScore - playerOneScore) * (playerOneTiMetric / 100));
-      playerOneNewTiMetric = playerOneTiMetric - diff;
-      playerTwoNewTiMetric = playerTwoTiMetric + diff;
+      // Player Two Wins
+      let diff = Math.ceil((playerTwoScore - playerOneScore) * (playerOneTiMetric / 100));
+      let multiplier = 1; // 1 by default, so if the T.I.M.s are equal they dont get multiplied
+      if (parseInt(playerTwoTiMetric) > parseInt(playerOneTiMetric)) {
+        // greater T.I.M. wins, then T.I.M - difference between T.I.M.s
+        multiplier = (playerTwoTiMetric - (playerTwoTiMetric - playerOneTiMetric)) / 100;
+      } else if (parseInt(playerTwoTiMetric) < parseInt(playerOneTiMetric)) {
+        // lower T.I.M. wins, then T.I.M difference
+        multiplier = (playerOneTiMetric - playerTwoTiMetric) / 100;
+      }
+      playerOneNewTiMetric = playerOneTiMetric - parseFloat(diff * multiplier);
+      playerTwoNewTiMetric = playerTwoTiMetric + parseFloat(diff * multiplier);
     }
 
     // give the winner the golden monkey if the loser had it
